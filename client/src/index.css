@@ -210,6 +210,16 @@ a:hover {
   align-items: center;
 }
 
+.nav-link {
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
 /* Dashboard specific */
 .dashboard-header {
   margin: 2rem 0;
@@ -233,3 +243,30 @@ a:hover {
 .badge-safe { background: rgba(16, 185, 129, 0.2); color: #34d399; }
 .badge-target { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
 .badge-ambitious { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+/* Data tables (admin dashboard) */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}

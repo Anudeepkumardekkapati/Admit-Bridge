@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const healthRoutes = require("./routes/health.routes");
+const universityRoutes = require("./routes/university.routes");
 const authRoutes = require("./routes/auth.routes");
 const studentRoutes = require("./routes/student.routes");
 const predictionRoutes = require("./routes/prediction.routes");
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/health", healthRoutes);
+app.use("/api/universities", universityRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/student", studentRoutes);
 app.use("/api/prediction", predictionRoutes);

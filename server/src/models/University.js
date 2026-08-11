@@ -13,6 +13,10 @@ const universitySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    location: {
+      type: String,
+      trim: true,
+    },
     worldRank: {
       type: Number,
     },
@@ -20,6 +24,12 @@ const universitySchema = new mongoose.Schema(
       type: Number,
     },
     avgToefl: {
+      type: Number,
+    },
+    ieltsRequirement: {
+      type: Number,
+    },
+    greRequirement: {
       type: Number,
     },
     avgCgpa: {
@@ -31,6 +41,20 @@ const universitySchema = new mongoose.Schema(
     tuitionFee: {
       type: Number,
     },
+    eligibility: {
+      type: String,
+      trim: true,
+    },
+    applicationDeadline: {
+      type: String,
+      trim: true,
+    },
+    requirements: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     programs: [
       {
         type: String,

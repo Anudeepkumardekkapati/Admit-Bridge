@@ -35,6 +35,12 @@ exports.addUniversity = async (req, res) => {
     const university = await University.create(req.body);
     res.status(201).json(university);
   } catch (error) {
+    if (error.name === "ValidationError" || error.code === 11000) {
+      const message = error.code === 11000
+        ? "A university with this name already exists"
+        : Object.values(error.errors || {}).map((e) => e.message).join("; ");
+      return res.status(400).json({ message });
+    }
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }

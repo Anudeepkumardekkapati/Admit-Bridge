@@ -4,6 +4,11 @@ import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/student/StudentDashboard';
+import StudentProfile from './pages/student/StudentProfile';
+import StudentApplications from './pages/student/StudentApplications';
+import UniversityList from './pages/universities/UniversityList';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ConsultantDashboard from './pages/consultant/ConsultantDashboard';
 import Navbar from './components/Navbar';
 
 // Protected Route Component
@@ -47,24 +52,41 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
+          <Route path="/universities" element={
+            <ProtectedRoute>
+              <UniversityList />
+            </ProtectedRoute>
+          } />
+          
           <Route path="/student/dashboard" element={
             <ProtectedRoute allowedRoles={['student']}>
               <StudentDashboard />
             </ProtectedRoute>
           } />
-          
-          {/* Add Consultant and Admin routes later */}
+          <Route path="/student/profile" element={
+            <ProtectedRoute allowedRoles={['student']}>
+              <StudentProfile />
+            </ProtectedRoute>
+          } />
+          <Route path="/student/applications" element={
+            <ProtectedRoute allowedRoles={['student']}>
+              <StudentApplications />
+            </ProtectedRoute>
+          } />
+
           <Route path="/consultant/dashboard" element={
             <ProtectedRoute allowedRoles={['consultant', 'admin']}>
-              <div className="container"><h1 className="dashboard-title" style={{marginTop: '2rem'}}>Consultant Dashboard (Coming Soon)</h1></div>
+              <ConsultantDashboard />
             </ProtectedRoute>
           } />
 
           <Route path="/admin/dashboard" element={
             <ProtectedRoute allowedRoles={['admin']}>
-              <div className="container"><h1 className="dashboard-title" style={{marginTop: '2rem'}}>Admin Dashboard (Coming Soon)</h1></div>
+              <AdminDashboard />
             </ProtectedRoute>
           } />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

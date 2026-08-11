@@ -23,6 +23,10 @@ const predictionSchema = new mongoose.Schema(
       enum: ["Safe", "Target", "Ambitious"],
       required: true,
     },
+    reason: {
+      type: String,
+      trim: true,
+    },
     featuresUsed: {
       greScore: Number,
       cgpa: Number,
