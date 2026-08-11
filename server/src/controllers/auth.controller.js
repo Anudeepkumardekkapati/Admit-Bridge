@@ -5,7 +5,10 @@ const { OAuth2Client } = require("google-auth-library");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, config.jwtSecret || "supersecretkey", {
+  if (!config.jwtSecret) {
+    throw new Error("JWT_SECRET is not set. Add it to your environment variables.");
+  }
+  return jwt.sign({ id }, config.jwtSecret, {
     expiresIn: "30d",
   });
 };

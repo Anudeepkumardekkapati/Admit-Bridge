@@ -11,7 +11,10 @@ const protect = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, config.jwtSecret || "supersecretkey");
+      if (!config.jwtSecret) {
+        return res.status(500).json({ message: "Server misconfigured: JWT_SECRET is not set" });
+      }
+      const decoded = jwt.verify(token, config.jwtSecret);
 
       req.user = await User.findById(decoded.id).select("-password");
       if (!req.user) {
