@@ -1,0 +1,34 @@
+# Render Blueprint — deploys BOTH the backend (Express) and the ML service.
+# Import this repo on Render with: New -> Blueprint -> select this repo.
+# After import, fill in MONGODB_URI and JWT_SECRET for the api service.
+services:
+  # --- ML prediction service (FastAPI) ---
+  - type: web
+    name: admitbridge-ml
+    runtime: python
+    rootDir: ml
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true
+
+  # --- Express REST API ---
+  - type: web
+    name: admitbridge-server
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: MONGODB_URI
+        sync: false # you provide this (MongoDB Atlas connection string)
+      - key: JWT_SECRET
+        sync: false # you provide this (any long random string)
+      - key: ML_SERVICE_URL
+        fromService:
+          name: admitbridge-ml
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
