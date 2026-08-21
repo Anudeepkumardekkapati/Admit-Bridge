@@ -80,6 +80,7 @@ const Register = () => {
             >
               <option value="student">Student</option>
               <option value="consultant">Consultant</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary" style={{width: '100%', marginTop: '1rem'}}>

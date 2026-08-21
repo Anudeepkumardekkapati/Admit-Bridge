@@ -3,9 +3,22 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
 
+const DEMO_ACCOUNTS = [
+  { label: 'Student', email: 'anu@gmail.com', password: 'password123', color: '#34d399', icon: '🎓' },
+  { label: 'Consultant', email: 'priya@consultancy.com', password: 'priya123', color: '#818cf8', icon: '💼' },
+  { label: 'Admin', email: 'admin@admitbridge.com', password: 'password123', color: '#fbbf24', icon: '🛡️' },
+];
+
+const ROLE_OPTIONS = [
+  { value: 'student', label: 'Student', icon: '🎓' },
+  { value: 'consultant', label: 'Consultant', icon: '💼' },
+  { value: 'admin', label: 'Admin', icon: '🛡️' },
+];
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const { login, googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -18,6 +31,13 @@ const Login = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
+  };
+
+  const handleDemoSelect = (account) => {
+    setEmail(account.email);
+    setPassword(account.password);
+    setRole(account.label.toLowerCase());
+    setError('');
   };
 
   return (
@@ -49,7 +69,21 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary" style={{width: '100%', marginTop: '1rem'}}>
+          <div className="form-group">
+            <label className="form-label">I am a...</label>
+            <select 
+              className="form-input"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+            >
+              <option value="">Select your role</option>
+              {ROLE_OPTIONS.map((r) => (
+                <option key={r.value} value={r.value}>{r.icon} {r.label}</option>
+              ))}
+            </select>
+          </div>
+          <button type="submit" className="btn btn-primary" style={{width: '100%', marginTop: '1rem'}} disabled={!role}>
             Log In
           </button>
         </form>
@@ -76,7 +110,43 @@ const Login = () => {
         </div>
 
         
-        <p style={{marginTop: '1.5rem', textAlign: 'center', color: 'var(--text-muted)'}}>
+        <div style={{ marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', margin: '0.75rem 0 0.5rem' }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color, #334155)' }}></div>
+            <span style={{ margin: '0 0.75rem', color: 'var(--text-muted, #94a3b8)', fontSize: '0.8rem' }}>Quick fill demo credentials</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color, #334155)' }}></div>
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            {DEMO_ACCOUNTS.map((account) => (
+              <button
+                key={account.label}
+                type="button"
+                onClick={() => handleDemoSelect(account)}
+                style={{
+                  flex: 1,
+                  padding: '0.6rem 0.5rem',
+                  borderRadius: '0.5rem',
+                  border: role === account.label.toLowerCase() ? `2px solid ${account.color}` : '1px solid var(--border)',
+                  background: role === account.label.toLowerCase() ? `${account.color}20` : 'rgba(255,255,255,0.03)',
+                  color: account.color,
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '0.25rem',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>{account.icon}</span>
+                {account.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <p style={{marginTop: '1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem'}}>
           Don't have an account? <Link to="/register">Sign up</Link>
         </p>
       </div>
